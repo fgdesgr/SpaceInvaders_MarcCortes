@@ -593,7 +593,7 @@ public class MainGame extends ApplicationAdapter {
                 if (p.y < -enemyProjectiles.height || p.x < -enemyProjectiles.width || p.x > Gdx.graphics.getWidth()) {
                     enemyProjectiles.rectangles.removeIndex(i);
                     enemyProjectiles.velocityX.removeIndex(i);
-                    playerProjectiles.velocityY.removeIndex(i);
+                    enemyProjectiles.velocityY.removeIndex(i);
                 }
             }
         } catch (Exception e) {
@@ -863,19 +863,10 @@ public class MainGame extends ApplicationAdapter {
                     }
                     Rectangle inv = invader.rectangles.get(i);
                     boolean isShootEnemy = invader.isShootEnemy.get(i);
-                    if (isShootEnemy) {
-                        TextureRegion frame = shootInvaderAnimation.getKeyFrame(animationTime, true);
-                        int frameIndex = shootInvaderAnimation.getKeyFrameIndex(animationTime);
-                        if (frameIndex == 1) { // 01_shoot_enemy.png needs flipping
-                            TextureRegion flippedFrame = new TextureRegion(frame);
-                            flippedFrame.flip(false, true); // Flip vertically
-                            spriteRenderer.draw(flippedFrame, inv.x, inv.y, inv.width, inv.height);
-                        } else {
-                            spriteRenderer.draw(frame, inv.x, inv.y, inv.width, inv.height);
-                        }
-                    } else {
-                        spriteRenderer.draw(invaderAnimation.getKeyFrame(animationTime, true), inv.x, inv.y, inv.width, inv.height);
-                    }
+                    spriteRenderer.draw(
+                        isShootEnemy ? shootInvaderAnimation.getKeyFrame(animationTime, true) : invaderAnimation.getKeyFrame(animationTime, true),
+                        inv.x, inv.y, inv.width, inv.height
+                    );
                 }
             }
 
